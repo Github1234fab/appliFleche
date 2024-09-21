@@ -1,22 +1,20 @@
 [build]
-  # Répertoire de build de Svelte (par défaut "build" ou "public")
-  publish = "public"
-  # Commande pour construire l'application
+  publish = "build"
   command = "npm run build"
 
-# Redirections pour les routes de la PWA
 [[redirects]]
   from = "/*"
-  to = "/app.html"
+  to = "/index.html"
   status = 200
 
-# Headers pour activer les fonctionnalités PWA
 [[headers]]
   for = "/*"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
-    Service-Worker-Allowed = "/"
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    X-XSS-Protection = "1; mode=block"
-    Referrer-Policy = "no-referrer"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self';"
+
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    Content-Type = "application/json"
